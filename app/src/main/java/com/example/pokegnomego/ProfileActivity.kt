@@ -2,68 +2,55 @@ package com.example.pokegnomego
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.widget.Button
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
+import androidx.navigation.ui.AppBarConfiguration
+import com.example.pokegnomego.databinding.ActivityMainBinding
 import com.example.pokegnomego.databinding.ActivityProfileBinding
 
 class ProfileActivity : AppCompatActivity() {
 
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityProfileBinding
 
+    public fun loadFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+//        transaction.replace(R.id.whatever, fragment)
+        transaction.commit()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_profile)
+
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupClickListeners()
-    }
-
-    private fun setupClickListeners() {
-        binding.buttonBack2.setOnClickListener {
-            Log.d("ProfileActivity", "Back button clicked")
-            onBackPressed()
+        val back = findViewById<Button>(R.id.button_back2)
+        back.setOnClickListener {
+            val i = Intent(this@ProfileActivity, LoginActivity::class.java)
+            startActivity(i)
+            finish()
         }
 
         binding.buttonMyPhotos.setOnClickListener {
-            Log.d("ProfileActivity", "My Photos button clicked")
-            navigateToFragment(MyPhotosFragment())
+            val i = Intent(this@ProfileActivity, PhotoGalleryActivity::class.java)
+            startActivity(i)
+            finish()
         }
 
         binding.buttonRank.setOnClickListener {
-            Log.d("ProfileActivity", "Ranking button clicked")
-            navigateToFragment(RankingFragment())
+            loadFragment(RankingFragment())
         }
 
         binding.buttonMyAchievements.setOnClickListener {
-            Log.d("ProfileActivity", "My Achievements button clicked")
-            navigateToFragment(AchievementsFragment())
+            loadFragment(AchievementsFragment())
         }
+
     }
 
-    private fun navigateToFragment(fragment: Fragment) {
-        Log.d("ProfileActivity", "Navigating to fragment: ${fragment::class.java.simpleName}")
-        supportFragmentManager.commit {
-            replace(R.id.fragment_container, fragment)
-            addToBackStack(null)
-        }
-    }
-
-    override fun onBackPressed() {
-        val fragmentManager = supportFragmentManager
-        if (fragmentManager.backStackEntryCount > 0) {
-            fragmentManager.popBackStack()
-        } else {
-            super.onBackPressed()
-            navigateToMainActivity()
-        }
-    }
-
-    private fun navigateToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
-        finish()
-    }
 }

@@ -38,35 +38,35 @@ class ThirdFragment : Fragment() {
         binding.imageviewFirst.setOnClickListener {
             val comFragment = CommentsFragment()
             parentFragmentManager.commit {
-                replace(R.id.whatever, comFragment)
+            //    replace(R.id.whatever, comFragment)
                 addToBackStack(null)
             }
         }
         binding.imageviewSecond.setOnClickListener {
             val comFragment = CommentsGolebnikFragment()
             parentFragmentManager.commit {
-                replace(R.id.whatever, comFragment)
+              //  replace(R.id.whatever, comFragment)
                 addToBackStack(null)
             }
         }
         binding.imageviewThird.setOnClickListener {
             val comFragment = CommentsSpiochFragment()
             parentFragmentManager.commit {
-                replace(R.id.whatever, comFragment)
+             //  replace(R.id.whatever, comFragment)
                 addToBackStack(null)
             }
         }
         binding.imageviewFourth.setOnClickListener {
             val comFragment = CommentsBibliofilFragment()
             parentFragmentManager.commit {
-                replace(R.id.whatever, comFragment)
+              //  replace(R.id.whatever, comFragment)
                 addToBackStack(null)
             }
         }
         binding.imageviewFifth.setOnClickListener {
             val comFragment = CommentsGrunwaldekFragment()
             parentFragmentManager.commit {
-                replace(R.id.whatever, comFragment)
+               // replace(R.id.whatever, comFragment)
                 addToBackStack(null)
             }
         }

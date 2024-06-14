@@ -46,5 +46,5 @@ interface ApiService {
     fun getUserAchievements(@Path("user_id") userId: Int): Call<UserAchievements>
 
     @GET("users/{user_id}/draw_gnome")
-    fun drawGnomeForUser(@Path("user_id") userId: Int): Call<Gnome>
+    fun drawGnome(@Path("user_id") userId: Int): Call<ResponseBody>
 }

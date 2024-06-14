@@ -96,7 +96,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val back = findViewById<Button>(R.id.button_back)
         back.setOnClickListener {
-            val i = Intent(this@MapActivity, MainActivity::class.java)
+            val i = Intent(this@MapActivity, LoginActivity::class.java)
             startActivity(i)
             finish()
         }

@@ -1,53 +1,67 @@
 package com.example.pokegnomego
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
-import androidx.navigation.fragment.findNavController
-import com.example.pokegnomego.R
-import com.example.pokegnomego.databinding.FragmentSecondBinding
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.example.pokegnomego.network.ApiClient
+import com.example.pokegnomego.network.ApiService
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-
-
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 class SecondFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var resultTextView: TextView
+    private lateinit var drawGnomeButton: Button
+    private var userId: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_second, container, false)
 
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        resultTextView = view.findViewById(R.id.resultTextView)
+        drawGnomeButton = view.findViewById(R.id.button_second)
 
-        val buttonX: Button = binding.buttonSecond
-        val imageY: ImageView = binding.gnomeShaker
-
-        // Set an OnClickListener on the button
-        buttonX.setOnClickListener {
-            // Change the image resource of the ImageView
-            imageY.setImageResource(R.drawable.android)
+        drawGnomeButton.setOnClickListener {
+            drawGnomeForUser(userId)
         }
 
-        return binding.root
-
+        return view
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        userId = sharedPreferences.getInt("userId", -1)
+    }
 
+    private fun drawGnomeForUser(userId: Int) {
+        if (userId == -1) {
+            resultTextView.text = "Invalid user ID"
+            return
+        }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        val apiService = ApiClient.client.create(ApiService::class.java)
+        apiService.drawGnome(userId).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    resultTextView.text = "Gnome drawn successfully: ${response.body()?.string()}"
+                } else {
+                    resultTextView.text = "Failed to draw gnome"
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                resultTextView.text = "Error: ${t.message}"
+            }
+        })
     }
 }

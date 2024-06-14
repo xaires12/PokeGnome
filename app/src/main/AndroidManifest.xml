@@ -26,6 +26,9 @@
         android:theme="@style/Theme.PokeGnomeGO"
         tools:targetApi="31" >
         <activity
+            android:name=".RegisterActivity"
+            android:exported="true" />
+        <activity
             android:name=".LoginActivity"
             android:exported="true" />
         <activity
@@ -36,9 +39,6 @@
             android:exported="true" />
         <activity
             android:name=".MapActivity"
-            android:exported="true" />
-        <activity
-            android:name=".RankingAdapter"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
