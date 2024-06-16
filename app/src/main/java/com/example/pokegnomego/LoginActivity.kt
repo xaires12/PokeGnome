@@ -70,7 +70,9 @@ class LoginActivity : AppCompatActivity() {
         binding.buttonProfile.setOnClickListener {
             val i = Intent(this@LoginActivity, ProfileActivity::class.java)
             // on below line we are calling start activity method to start our activity.
+
             startActivity(i)
+
             // on below line we are calling finish to finish our main activity.
             finish()
         }

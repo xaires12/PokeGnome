@@ -56,12 +56,12 @@ class ProfileActivity : AppCompatActivity() {
             fragmentManager.popBackStack()
         } else {
             super.onBackPressed()
-            navigateToMainActivity()
+            navigateToLoginActivity()
         }
     }
 
-    private fun navigateToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun navigateToLoginActivity() {
+        val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()

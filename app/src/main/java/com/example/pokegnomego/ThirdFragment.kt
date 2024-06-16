@@ -32,48 +32,102 @@ class ThirdFragment : Fragment() {
 
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.imageviewFirst.setOnClickListener {
-            val comFragment = CommentsFragment()
+            val gnomeId = 1
+            val comFragment = CommentsFragment.newInstance(gnomeId)
             parentFragmentManager.commit {
-            //    replace(R.id.whatever, comFragment)
+                replace(R.id.whatever, comFragment)
                 addToBackStack(null)
             }
         }
         binding.imageviewSecond.setOnClickListener {
-            val comFragment = CommentsGolebnikFragment()
+            val gnomeId = 12
+            val comFragment = CommentsFragment.newInstance(gnomeId)
             parentFragmentManager.commit {
-              //  replace(R.id.whatever, comFragment)
+                replace(R.id.whatever, comFragment)
                 addToBackStack(null)
             }
         }
         binding.imageviewThird.setOnClickListener {
-            val comFragment = CommentsSpiochFragment()
+            val gnomeId = 6
+            val comFragment = CommentsFragment.newInstance(gnomeId)
             parentFragmentManager.commit {
-             //  replace(R.id.whatever, comFragment)
+                replace(R.id.whatever, comFragment)
                 addToBackStack(null)
             }
         }
         binding.imageviewFourth.setOnClickListener {
-            val comFragment = CommentsBibliofilFragment()
+            val gnomeId = 7
+            val comFragment = CommentsFragment.newInstance(gnomeId)
             parentFragmentManager.commit {
-              //  replace(R.id.whatever, comFragment)
+                replace(R.id.whatever, comFragment)
                 addToBackStack(null)
             }
         }
         binding.imageviewFifth.setOnClickListener {
-            val comFragment = CommentsGrunwaldekFragment()
+            val gnomeId = 9
+            val comFragment = CommentsFragment.newInstance(gnomeId)
             parentFragmentManager.commit {
-               // replace(R.id.whatever, comFragment)
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        }
+        binding.imageviewSixth.setOnClickListener {
+            val gnomeId = 15
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+        }
+        binding.imageviewSeventh.setOnClickListener {
+            val gnomeId = 14
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        }
+        binding.imageviewEigth.setOnClickListener {
+            val gnomeId = 17
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        }
+        binding.imageviewNineth.setOnClickListener {
+            val gnomeId = 8
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        }
+        binding.imageviewTenth.setOnClickListener {
+            val gnomeId = 13
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        }
+        binding.imageviewEleventh.setOnClickListener {
+            val gnomeId = 10
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
                 addToBackStack(null)
             }
         }
     }
 
-    override fun onDestroyView() {
+    fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+}
 }

@@ -25,10 +25,10 @@ interface ApiService {
     fun getVisit(@Path("visit_id") visitId: Int): Call<Visit>
 
     @POST("gnomes/{gnome_id}/comment")
-    fun addComment(@Path("gnome_id") gnomeId: Int, @Body comment: Comment): Call<ResponseBody>
+    fun addComment(@Path("gnome_id") gnomeId: Int, @Body coment: Comment): Call<ResponseBody>
 
     @GET("gnomes/{gnome_id}/comments")
-    fun getGnomeComments(@Path("gnome_id") gnomeId: Int): Call<List<String>>
+    fun getComments(@Path("gnome_id") gnomeId: Int): Call<List<Comments>>
 
     @POST("register")
     fun createUser(@Body user: User): Call<ResponseBody>

@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveUserId(userId: Int) {
-        val sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putInt("userId", userId)
         editor.apply()

@@ -5,8 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:defaultNavHost="true"
-    app:navGraph="@navigation/nav_graph"
     tools:context=".ThirdFragment">
 
     <ScrollView
@@ -19,7 +17,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <TextView
                 android:id="@+id/textview_third"
                 android:layout_width="wrap_content"
@@ -30,81 +27,100 @@
                 android:text="@string/forum_welcome"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
+                android:textSize="24sp" />
 
-            <!-- Pracz Odrzanski 004-->
             <ImageView
                 android:id="@+id/imageview_first"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/img1"
-                android:layout_marginTop="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textview_third" />
+                android:src="@drawable/wizek"
+                android:layout_marginTop="16dp" />
 
-            <!-- Golebnik 038-->
             <ImageView
                 android:id="@+id/imageview_second"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/img2"
-                android:layout_marginTop="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageview_first" />
+                android:src="@drawable/wyksztalciuch"
+                android:layout_marginTop="16dp" />
 
-            <!--Spioch 007-->
             <ImageView
                 android:id="@+id/imageview_third"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/img3"
-                android:layout_marginTop="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageview_second" />
+                android:src="@drawable/babelek"
+                android:layout_marginTop="16dp" />
 
-            <!--Bibliofil 049-->
             <ImageView
                 android:id="@+id/imageview_fourth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/img4"
-                android:layout_marginTop="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageview_third" />
+                android:src="@drawable/chemik"
+                android:layout_marginTop="16dp" />
 
-            <!--Grunwaldek 069-->
             <ImageView
                 android:id="@+id/imageview_fifth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/img5"
-                android:layout_marginTop="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageview_fourth" />
+                android:src="@drawable/chemik2"
+                android:layout_marginTop="16dp" />
 
-            <!--Botanik 076-->
+            <ImageView
+                android:id="@+id/imageview_sixth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/googlak"
+                android:layout_marginTop="16dp" />
 
+            <ImageView
+                android:id="@+id/imageview_seventh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/hapek"
+                android:layout_marginTop="16dp" />
 
-            <!--Luminator 098-->
+            <ImageView
+                android:id="@+id/imageview_eigth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/kacus"
+                android:layout_marginTop="16dp" />
 
+            <ImageView
+                android:id="@+id/imageview_nineth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/lappek"
+                android:layout_marginTop="16dp" />
 
-            <!--Solidarek 082-->
+            <ImageView
+                android:id="@+id/imageview_tenth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/lunatyk"
+                android:layout_marginTop="16dp" />
 
-
+            <ImageView
+                android:id="@+id/imageview_eleventh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/poliglotek"
+                android:layout_marginTop="16dp" />
+            <FrameLayout
+                android:id="@+id/third_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="120dp" />
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
