@@ -9,11 +9,8 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiService {
-    @GET("gnomes")
-    fun getGnomes(): Call<List<Gnome>>
-
-    @GET("gnomes/{gnome_id}")
-    fun getGnome(@Path("gnome_id") gnomeId: Int): Call<Gnome>
+//    @GET("gnomes")
+//    fun getGnomes(): Call<List<Gnome>>
 
     @GET("users")
     fun getUsers(): Call<List<RankingUser>>
@@ -46,5 +43,5 @@ interface ApiService {
     fun getUserAchievements(@Path("user_id") userId: Int): Call<UserAchievements>
 
     @GET("users/{user_id}/draw_gnome")
-    fun drawGnome(@Path("user_id") userId: Int): Call<ResponseBody>
+    fun drawGnome(@Path("user_id") userId: Int): Call<GnomeResponse>
 }

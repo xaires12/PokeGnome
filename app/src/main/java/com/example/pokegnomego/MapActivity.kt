@@ -2,6 +2,7 @@ package com.example.pokegnomego
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
@@ -130,7 +131,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         WroclawMap = MyMap
         val latLng = LatLng(51.11054553520132, 17.03326405469526)
         WroclawMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-
+        val sharedPreferences = getSharedPreferences("CoordsPrefs", Context.MODE_PRIVATE)
+        val latitude = sharedPreferences.getString("Latitude", null)?.toDoubleOrNull()
+        val longitude = sharedPreferences.getString("Longitude", null)?.toDoubleOrNull()
+        if (latitude != null && longitude != null) {
+            val location = LatLng(latitude, longitude)
+            // Add a marker at the specified location
+            WroclawMap.addMarker(MarkerOptions().position(location).title("Wylosowany krasnal"))
+        }
     }
 
     private fun startLocationUpdates() {
@@ -176,7 +184,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun updateGallery(photoFile: File) {
         MediaScannerConnection.scanFile(this, arrayOf(photoFile.absolutePath), null) { _, uri ->
-            // Gallery is updated, you can use the uri if needed
+
         }
     }
 }

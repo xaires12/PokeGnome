@@ -116,6 +116,55 @@
                 android:layout_gravity="center"
                 android:src="@drawable/poliglotek"
                 android:layout_marginTop="16dp" />
+
+            <ImageView
+                android:id="@+id/imageview_twelveth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/automatek"
+                android:layout_marginTop="16dp" />
+
+            <ImageView
+                android:id="@+id/imageview_thirteenth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/stomatolog"
+                android:layout_marginTop="16dp" />
+
+            <ImageView
+                android:id="@+id/imageview_fourteenth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/adwokatka"
+                android:layout_marginTop="16dp" />
+
+            <ImageView
+                android:id="@+id/imageview_fifteenth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/agorek"
+                android:layout_marginTop="16dp" />
+
+            <ImageView
+                android:id="@+id/imageview_sixteenth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/pokojmoniki"
+                android:layout_marginTop="16dp" />
+
+            <ImageView
+                android:id="@+id/imageview_seventeenth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/budynekc4"
+                android:layout_marginTop="16dp" />
+
             <FrameLayout
                 android:id="@+id/third_fragment_container"
                 android:layout_width="match_parent"

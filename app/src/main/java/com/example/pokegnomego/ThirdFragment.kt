@@ -37,7 +37,7 @@ class ThirdFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.imageviewFirst.setOnClickListener {
-            val gnomeId = 1
+            val gnomeId = 11
             val comFragment = CommentsFragment.newInstance(gnomeId)
             parentFragmentManager.commit {
                 replace(R.id.whatever, comFragment)
@@ -123,7 +123,56 @@ class ThirdFragment : Fragment() {
                 addToBackStack(null)
             }
         }
+        binding.imageviewTwelveth.setOnClickListener {
+            val gnomeId = 1
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        }
+        binding.imageviewThirteenth.setOnClickListener {
+            val gnomeId = 2
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        binding.imageviewFourteenth.setOnClickListener {
+            val gnomeId = 3
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        }
+
+        binding.imageviewFifteenth.setOnClickListener {
+            val gnomeId = 5
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        binding.imageviewSixteenth.setOnClickListener {
+            val gnomeId = 18
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        }
+        binding.imageviewSeventeenth.setOnClickListener {
+            val gnomeId = 19
+            val comFragment = CommentsFragment.newInstance(gnomeId)
+            parentFragmentManager.commit {
+                replace(R.id.whatever, comFragment)
+                addToBackStack(null)
+            }
+        }
+        }
     }
+}
 
     fun onDestroyView() {
         super.onDestroyView()
