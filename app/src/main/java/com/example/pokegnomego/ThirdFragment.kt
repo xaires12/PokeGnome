@@ -37,7 +37,7 @@ class ThirdFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.imageviewFirst.setOnClickListener {
-            val gnomeId = 11
+            val gnomeId = 19
             val comFragment = CommentsFragment.newInstance(gnomeId)
             parentFragmentManager.commit {
                 replace(R.id.whatever, comFragment)
@@ -45,7 +45,7 @@ class ThirdFragment : Fragment() {
             }
         }
         binding.imageviewSecond.setOnClickListener {
-            val gnomeId = 12
+            val gnomeId = 1
             val comFragment = CommentsFragment.newInstance(gnomeId)
             parentFragmentManager.commit {
                 replace(R.id.whatever, comFragment)
@@ -124,7 +124,7 @@ class ThirdFragment : Fragment() {
             }
         }
         binding.imageviewTwelveth.setOnClickListener {
-            val gnomeId = 1
+            val gnomeId = 12
             val comFragment = CommentsFragment.newInstance(gnomeId)
             parentFragmentManager.commit {
                 replace(R.id.whatever, comFragment)
@@ -163,7 +163,7 @@ class ThirdFragment : Fragment() {
             }
         }
         binding.imageviewSeventeenth.setOnClickListener {
-            val gnomeId = 19
+            val gnomeId = 11
             val comFragment = CommentsFragment.newInstance(gnomeId)
             parentFragmentManager.commit {
                 replace(R.id.whatever, comFragment)
