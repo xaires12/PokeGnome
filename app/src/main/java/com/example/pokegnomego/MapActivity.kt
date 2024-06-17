@@ -101,9 +101,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var photoFile: File
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("JPEG_${timeStamp}_",".jpg",storageDir).apply {
+        val storageDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyAppImages")
+        if (!storageDir.exists()) {
+            storageDir.mkdirs() // Tworzenie folderu, jeśli nie istnieje
+        }
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
             photoFile = this
+            Log.d("FilePath", "Photo file path: ${photoFile.absolutePath}") // Logowanie ścieżki
         }
     }
 
@@ -188,27 +192,31 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(packageManager).also {
-                val photoURI: Uri = FileProvider.getUriForFile(this,
-                    "com.example.pokegnomego.fileprovider",createImageFile())
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                takePictureIntent.resolveActivity(packageManager)?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this,
+                        "${applicationContext.packageName}.fileprovider",
+                        createImageFile()
+                    )
+                    Log.d("FilePath", "Photo URI: $photoURI") // Log URI
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
             }
+        } else {
+            checkPermissions()
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return
-            }
-
-            // Photo captured successfully, you can now update the gallery
             updateGallery(photoFile)
-
-
             locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     for (location in locationResult.locations) {
@@ -223,11 +231,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    fun updateGallery(photoFile: File) {
+    private fun updateGallery(photoFile: File) {
         MediaScannerConnection.scanFile(this, arrayOf(photoFile.absolutePath), null) { _, uri ->
-
+            Log.d("GalleryUpdate", "Updating gallery with photo file: ${photoFile.absolutePath}")
+            Log.d("GalleryUpdate", "MediaScanner URI: $uri")
         }
-        Log.d(TAG, "Updating gallery with photo file: ${photoFile.absolutePath}")
     }
     fun sendVisitToServer(latitude: Double, longitude: Double) {
 
@@ -256,31 +264,5 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         })
     }
-
-    // Function to fetch the last known location
-    private fun getLastLocation() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            fusedLocationProviderClient.lastLocation
-                .addOnSuccessListener { location ->
-                    if (location != null) {
-                        // Log the latitude and longitude
-                        Log.d("Location", "Latitude: " + location.latitude)
-                        Log.d("Location", "Longitude: " + location.longitude)
-
-                        // Use Geocoder to get detailed location information
-                            // Log detailed location information )
-                        }
-
-
-                }
-        } else {
-
-            return
-        }
-    }
-
 }
+

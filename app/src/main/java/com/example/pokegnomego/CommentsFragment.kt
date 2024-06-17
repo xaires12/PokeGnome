@@ -124,9 +124,4 @@ class CommentsFragment : Fragment() {
         _binding = null
     }
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-//        userId = sharedPreferences.getInt("userId", -1)
-//    }
 }
