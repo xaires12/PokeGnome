@@ -1,25 +1,26 @@
 package com.example.pokegnomego
 
 import android.Manifest
-import android.app.Activity
+import android.R.attr.country
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.os.Environment.getExternalStoragePublicDirectory
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.example.pokegnomego.models.Visit
+import com.example.pokegnomego.network.ApiClient
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -27,6 +28,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -35,16 +40,24 @@ import java.util.*
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
+
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private val permissionCode = 101
+    private var gnome_id: Int = -1
+    private var user_id: Int = -1
     private lateinit var WroclawMap: GoogleMap
+    val TAG = "MapActivity"
+
+
+
 
 
     val REQUEST_CAMERA_PERMISSION = 1001
     private val REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = 1002
     private val REQUEST_IMAGE_CAPTURE = 1003
+    private val REQUEST_READ_EXTERNAL_STORAGE_PERMISSION = 1004
     private fun checkPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
             != PackageManager.PERMISSION_GRANTED) {
@@ -60,6 +73,15 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 this,
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION
+            )
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                REQUEST_READ_EXTERNAL_STORAGE_PERMISSION
             )
         }
     }
@@ -84,6 +106,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             photoFile = this
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
@@ -105,6 +128,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val photoButton = findViewById<Button>(R.id.button_photo)
         photoButton.setOnClickListener {
             dispatchTakePictureIntent()
+
         }
 
         locationRequest = LocationRequest.create().apply {
@@ -136,7 +160,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val longitude = sharedPreferences.getString("Longitude", null)?.toDoubleOrNull()
         if (latitude != null && longitude != null) {
             val location = LatLng(latitude, longitude)
-            // Add a marker at the specified location
             WroclawMap.addMarker(MarkerOptions().position(location).title("Wylosowany krasnal"))
         }
     }
@@ -177,14 +200,87 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return
+            }
+
             // Photo captured successfully, you can now update the gallery
             updateGallery(photoFile)
+
+
+            locationCallback = object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    for (location in locationResult.locations) {
+                        val latitude = location.latitude
+                        val longitude = location.longitude
+                        Log.d(TAG, "Location obtained: Latitude = $latitude, Longitude = $longitude")
+                        sendVisitToServer(latitude, longitude)
+                    }
+
+                }
+            }
         }
     }
 
-    private fun updateGallery(photoFile: File) {
+    fun updateGallery(photoFile: File) {
         MediaScannerConnection.scanFile(this, arrayOf(photoFile.absolutePath), null) { _, uri ->
 
         }
+        Log.d(TAG, "Updating gallery with photo file: ${photoFile.absolutePath}")
     }
+    fun sendVisitToServer(latitude: Double, longitude: Double) {
+
+        val visit_date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val sharedDate = getSharedPreferences("CoordsPrefs", Context.MODE_PRIVATE)
+        gnome_id = sharedDate.getInt("gnome_id", -1)
+        val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        user_id = sharedPreferences.getInt("userId", -1)
+        Log.d(TAG, "Sending visit to server with Latitude = $latitude, Longitude = $longitude, $user_id, $gnome_id, $visit_date ")
+
+
+
+
+        val visit = Visit(user_id, gnome_id, visit_date, latitude, longitude)
+        ApiClient.apiService.addVisit(visit).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@MapActivity, "Dodano wizytę", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this@MapActivity, "Nie dodano wizyty", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(this@MapActivity, "Nie dodano wizyty", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // Function to fetch the last known location
+    private fun getLastLocation() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationProviderClient.lastLocation
+                .addOnSuccessListener { location ->
+                    if (location != null) {
+                        // Log the latitude and longitude
+                        Log.d("Location", "Latitude: " + location.latitude)
+                        Log.d("Location", "Longitude: " + location.longitude)
+
+                        // Use Geocoder to get detailed location information
+                            // Log detailed location information )
+                        }
+
+
+                }
+        } else {
+
+            return
+        }
+    }
+
 }

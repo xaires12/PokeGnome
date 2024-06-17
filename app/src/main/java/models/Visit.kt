@@ -1,11 +1,9 @@
 package com.example.pokegnomego.models
 
 data class Visit(
-    val visitId: Int,
-    val userId: Int,
-    val gnomeId: Int,
-    val photo: String?,
-    val visitDate: String,
+    val user_id: Int,
+    val gnome_id: Int,
+    val visit_date: String,
     val latitude: Double,
     val longitude: Double
 )

@@ -106,10 +106,10 @@ class CommentsFragment : Fragment() {
         apiService.addComment(gnomeId, newComment).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Comment added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Dodano komentarz", Toast.LENGTH_SHORT).show()
                     //loadComments(gnomeId)
                 } else {
-                    Toast.makeText(context, "Failed to add comment", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Nie dodano komentarza", Toast.LENGTH_SHORT).show()
                 }
             }
 

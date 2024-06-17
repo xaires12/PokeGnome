@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.example.pokegnomego.databinding.ActivityProfileBinding
+import com.example.pokegnomego.fragments.AchievementsFragment
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -53,7 +54,7 @@ class ProfileActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val fragmentManager = supportFragmentManager
         if (fragmentManager.backStackEntryCount > 0) {
-            fragmentManager.popBackStack()
+            navigateToLoginActivity()
         } else {
             super.onBackPressed()
             navigateToLoginActivity()

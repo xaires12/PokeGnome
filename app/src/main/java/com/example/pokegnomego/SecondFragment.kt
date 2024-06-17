@@ -53,7 +53,7 @@ class SecondFragment : Fragment() {
                     val gnomeResponse = response.body()
                     if (gnomeResponse != null) {
                         resultTextView.text = "Gnome drawn successfully: ${gnomeResponse.name}"
-                        saveCoordinates(gnomeResponse.latitude, gnomeResponse.longitude)
+                        saveData(gnomeResponse.latitude, gnomeResponse.longitude, gnomeResponse.gnome_id)
                     } else {
                         resultTextView.text = "Failed to draw gnome"
                     }
@@ -70,11 +70,12 @@ class SecondFragment : Fragment() {
         })
     }
 
-    private fun saveCoordinates(latitude: Double, longitude: Double) {
+    private fun saveData(latitude: Double, longitude: Double, gnome_id: Int) {
         val sharedPreferences = requireContext().getSharedPreferences("CoordsPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("Latitude", latitude.toString())
         editor.putString("Longitude", longitude.toString())
+        editor.putInt("gnome_id", gnome_id)
         editor.apply()
     }
 }
